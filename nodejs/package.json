@@ -1,6 +1,6 @@
 {
   "name": "@ddima16/flightradarapi",
-  "version": "1.4.3",
+  "version": "1.4.4",
   "description": "SDK for FlightRadar24 (Cloudflare Bypass Fork)",
   "main": "./FlightRadar24/index.js",
   "scripts": {
