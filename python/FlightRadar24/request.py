@@ -5,6 +5,8 @@ from typing import Dict, List, Optional, Union
 import brotli
 import json
 import gzip
+import os
+import urllib.parse
 
 import requests
 import requests.structures
@@ -30,10 +32,13 @@ class APIRequest(object):
         timeout: int = 30,
         data: Optional[Dict] = None,
         cookies: Optional[Dict] = None,
-        exclude_status_codes: List[int] = list()
+        exclude_status_codes: List[int] = list(),
+        proxy_url: Optional[str] = None
     ):
         """
         Constructor of the APIRequest class.
+
+        MODIFIED VERSION: This library has been patched to support Cloudflare bypass via Worker Proxy.
 
         :param url: URL for the request
         :param params: params that will be inserted on the URL for the request
@@ -41,6 +46,8 @@ class APIRequest(object):
         :param data: data for the request. If "data" is None, request will be a GET. Otherwise, it will be a POST
         :param cookies: cookies for the request
         :param exclude_status_codes: raise for status code except those on the excluded list
+        :param proxy_url: Optional Cloudflare Worker proxy URL (e.g. "https://worker.dev/?url=").
+                          Fallback to FR24_PROXY_URL environment variable if not provided.
         """
         self.url = url
 
@@ -52,10 +59,22 @@ class APIRequest(object):
             "cookies": cookies
         }
 
-        request_method = requests.get if data is None else requests.post
-
         if params: url += "?" + "&".join(["{}={}".format(k, v) for k, v in params.items()])
-        self.__response = request_method(url, headers=headers, cookies=cookies, data=data, timeout=timeout)
+
+        # Cloudflare Worker proxy support — mirrors Node.js behaviour.
+        resolved_proxy = (proxy_url or os.environ.get("FR24_PROXY_URL", "")).strip()
+        target_url = resolved_proxy + urllib.parse.quote(url, safe="") if resolved_proxy else url
+
+        # Only pass the Accept header to the worker (avoids header-stripping issues).
+        proxy_headers = {
+            "Accept": (headers or {}).get("accept", "*/*"),
+        }
+        request_headers = proxy_headers if resolved_proxy else headers
+
+        request_method = requests.get if data is None else requests.post
+        self.__response = request_method(
+            target_url, headers=request_headers, cookies=cookies, data=data, timeout=timeout
+        )
 
         if self.get_status_code() == 520:
             raise CloudflareError(
