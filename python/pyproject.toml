@@ -1,7 +1,7 @@
 [project]
-name = "FlightRadarAPI"
+name = "ddima16-flightradarapi"
 dynamic = ["version"]
-description = "SDK for FlightRadar24 with Cloudflare bypass support"
+description = "Unofficial SDK for FlightRadar24 with Cloudflare bypass support (fork)"
 authors = [
     { name = "DimaD16", email = "dimitry.rouaix@gmail.com" },
 ]
@@ -37,6 +37,7 @@ tests = [
 [project.urls]
 "Homepage" = "https://github.com/DimaD16/FlightRadarAPI"
 "Source Code" = "https://github.com/DimaD16/FlightRadarAPI"
+"Original Project" = "https://github.com/JeanExtreme002/FlightRadarAPI"
 "Bug Reports" = "https://github.com/DimaD16/FlightRadarAPI/issues"
 
 [tool.hatch.version]

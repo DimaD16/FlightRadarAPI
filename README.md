@@ -34,7 +34,7 @@ FlightRadar24 uses Cloudflare protection. To bypass this, you **must** use a Clo
 
 **For Python with pip:**
 ```
-pip install FlightRadarAPI
+pip install ddima16-flightradarapi
 ```
 
 **For Node.js with npm:**
