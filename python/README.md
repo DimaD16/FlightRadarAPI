@@ -5,14 +5,14 @@ Unofficial SDK for [FlightRadar24](https://www.flightradar24.com/) for Python 3,
 
 This SDK should only be used for educational purposes. See [FlightRadar24's terms and conditions](https://www.flightradar24.com/terms-and-conditions).
 
-[![PyPI](https://img.shields.io/pypi/v/FlightRadarAPI?logo=pypi)](https://pypi.org/project/FlightRadarAPI/)
-[![License](https://img.shields.io/pypi/l/FlightRadarAPI)](https://github.com/DimaD16/FlightRadarAPI)
-[![Python Version](https://img.shields.io/badge/python-3.7+-8A2BE2)](https://pypi.org/project/FlightRadarAPI/)
+[![PyPI](https://img.shields.io/pypi/v/ddima16-flightradarapi?logo=pypi)](https://pypi.org/project/ddima16-flightradarapi/)
+[![License](https://img.shields.io/pypi/l/ddima16-flightradarapi)](https://github.com/DimaD16/FlightRadarAPI)
+[![Python Version](https://img.shields.io/badge/python-3.7+-8A2BE2)](https://pypi.org/project/ddima16-flightradarapi/)
 
 ## Installation
 
 ```bash
-pip install FlightRadarAPI
+pip install ddima16-flightradarapi
 ```
 
 ## 🛡️ Cloudflare Bypass (Required)

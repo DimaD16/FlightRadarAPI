@@ -8,8 +8,8 @@ This SDK should only be used for your own educational purposes. If you are inter
 > **Note:** This is a maintained fork of [JeanExtreme002/FlightRadarAPI](https://github.com/JeanExtreme002/FlightRadarAPI) featuring integrated Cloudflare bypass support.
 
 [![Node.js Package](https://github.com/DimaD16/FlightRadarAPI/actions/workflows/node-package.yml/badge.svg)](https://github.com/DimaD16/FlightRadarAPI/actions)
-[![Npm](https://img.shields.io/npm/v/flightradarapi?logo=npm&color=red)](https://www.npmjs.com/package/flightradarapi)
-[![License](https://img.shields.io/pypi/l/FlightRadarAPI)](https://github.com/DimaD16/FlightRadarAPI)
+[![Npm](https://img.shields.io/npm/v/@ddima16/flightradarapi?logo=npm&color=red)](https://www.npmjs.com/package/@ddima16/flightradarapi)
+[![License](https://img.shields.io/npm/l/@ddima16/flightradarapi)](https://github.com/DimaD16/FlightRadarAPI)
 
 ## 🛡️ Cloudflare Bypass (Required)
 
@@ -24,14 +24,14 @@ FlightRadar24 uses Cloudflare protection. To bypass this, you **must** use a Clo
 
 ## Installing FlightRadarAPI:
 ```
-$ npm install flightradarapi
+$ npm install @ddima16/flightradarapi
 ```
 
 ## Basic Usage:
 
 Import the class `FlightRadar24API` and create an instance of it.
 ```javascript
-const { FlightRadar24API, Countries } = require("flightradarapi");
+const { FlightRadar24API, Countries } = require("@ddima16/flightradarapi");
 
 // Initialize with your worker proxy URL
 const frApi = new FlightRadar24API("https://your-worker.workers.dev/?url=");
@@ -62,7 +62,7 @@ let zones = await frApi.getZones();
 **Using Countries enum:**
 ```javascript
 // Available countries in the Countries enum
-const { Countries } = require("flightradarapi");
+const { Countries } = require("@ddima16/flightradarapi");
 
 // Examples of country codes:
 Countries.UNITED_STATES    // "united-states"

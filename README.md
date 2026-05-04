@@ -9,12 +9,12 @@ This SDK should only be used for your own educational purposes. If you are inter
 
 [![Python Package](https://github.com/DimaD16/FlightRadarAPI/actions/workflows/python-package.yml/badge.svg)](https://github.com/DimaD16/FlightRadarAPI/actions)
 [![Node.js Package](https://github.com/DimaD16/FlightRadarAPI/actions/workflows/node-package.yml/badge.svg)](https://github.com/DimaD16/FlightRadarAPI/actions)
-[![Pypi](https://img.shields.io/pypi/v/FlightRadarAPI?logo=pypi)](https://pypi.org/project/FlightRadarAPI/)
-[![License](https://img.shields.io/pypi/l/FlightRadarAPI)](https://github.com/DimaD16/FlightRadarAPI)
-[![Python Version](https://img.shields.io/badge/python-3.7+-8A2BE2)](https://pypi.org/project/FlightRadarAPI/)
+[![Pypi](https://img.shields.io/pypi/v/ddima16-flightradarapi?logo=pypi)](https://pypi.org/project/ddima16-flightradarapi/)
+[![License](https://img.shields.io/pypi/l/ddima16-flightradarapi)](https://github.com/DimaD16/FlightRadarAPI)
+[![Python Version](https://img.shields.io/badge/python-3.7+-8A2BE2)](https://pypi.org/project/ddima16-flightradarapi/)
 [![Npm](https://img.shields.io/npm/v/@ddima16/flightradarapi?logo=npm&color=red)](https://www.npmjs.com/package/@ddima16/flightradarapi)
-[![Downloads](https://static.pepy.tech/personalized-badge/flightradarapi?period=total&units=international_system&left_color=grey&right_color=orange&left_text=downloads)](https://pypi.org/project/FlightRadarAPI/)
-[![Frequency](https://img.shields.io/pypi/dm/flightradarapi?style=flat&label=frequency)](https://pypi.org/project/FlightRadarAPI/)
+[![Downloads](https://static.pepy.tech/personalized-badge/ddima16-flightradarapi?period=total&units=international_system&left_color=grey&right_color=orange&left_text=downloads)](https://pypi.org/project/ddima16-flightradarapi/)
+[![Frequency](https://img.shields.io/pypi/dm/ddima16-flightradarapi?style=flat&label=frequency)](https://pypi.org/project/ddima16-flightradarapi/)
 
 ## 🛡️ Cloudflare Bypass (Required)
 
