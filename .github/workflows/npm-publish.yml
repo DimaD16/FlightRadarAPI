@@ -32,5 +32,7 @@ jobs:
         env:
           FR24_PROXY_URL: ${{ secrets.FR24_PROXY_URL }}
           
-      - name: Publish to NPM (Trusted Publishing)
-        run: npm publish --access public --provenance
+      - name: Publish to NPM
+        run: npm publish --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
