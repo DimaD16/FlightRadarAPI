@@ -1,10 +1,9 @@
 # FlightRadarAPI - Node.js Edition
 Unofficial SDK for [FlightRadar24](https://www.flightradar24.com/).
 
-> [!IMPORTANT]
-> This is a modified fork of the original [FlightRadarAPI](https://github.com/JeanExtreme002/FlightRadarAPI), maintained by [@ddima16](https://github.com/DimaD16).
+> **Fork Information:** This is a modified fork of the original [FlightRadarAPI](https://github.com/JeanExtreme002/FlightRadarAPI), maintained by [@ddima16](https://github.com/DimaD16).
 >
-> **Contributors Wanted:** While this Node.js port is highly optimized and production-ready, **we are actively looking for contributors to port these improvements (Cloudflare bypass, etc.) back to the Python version.**
+> **Contributors Wanted:** While this Node.js port is highly optimized and production-ready, we are actively looking for contributors to port these improvements (Cloudflare bypass, etc.) back to the Python version.
 
 ## Installation
 ```bash
