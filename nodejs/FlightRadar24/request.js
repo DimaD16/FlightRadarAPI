@@ -65,8 +65,8 @@ class APIRequest {
      * MODIFIED VERSION: This library has been patched to support Cloudflare bypass via Worker Proxy.
      */
     async receive() {
-        const proxyUrl = this.proxyUrl || process.env.FR24_PROXY_URL;
-        const targetUrl = proxyUrl ? proxyUrl + encodeURIComponent(this.url) : this.url;
+        this.__proxyUrl = (this.proxyUrl || process.env.FR24_PROXY_URL || "").trim();
+        const targetUrl = this.__proxyUrl ? this.__proxyUrl + encodeURIComponent(this.url) : this.url;
 
         // Pass the Accept header to the worker
         const headers = {
