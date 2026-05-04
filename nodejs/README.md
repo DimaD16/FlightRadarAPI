@@ -1,64 +1,92 @@
-# FlightRadarAPI
-Unofficial SDK for [FlightRadar24](https://www.flightradar24.com/) for Python 3 and Node.js.
+# FlightRadarAPI - Node.js Edition
+Unofficial SDK for [FlightRadar24](https://www.flightradar24.com/).
 
-This SDK should only be used for your own educational purposes. If you are interested in accessing Flightradar24 data commercially, please contact business@fr24.com. See more information at [Flightradar24's terms and conditions](https://www.flightradar24.com/terms-and-conditions).
+> [!IMPORTANT]
+> This is a modified fork of the original [FlightRadarAPI](https://github.com/JeanExtreme002/FlightRadarAPI), maintained by [@ddima16](https://github.com/DimaD16).
+>
+> **Contributors Wanted:** While this Node.js port is highly optimized and production-ready, **we are actively looking for contributors to port these improvements (Cloudflare bypass, etc.) back to the Python version.**
 
-**Official FR24 API**: https://fr24api.flightradar24.com/
-
-[![Node.js Package](https://github.com/JeanExtreme002/FlightRadarAPI/actions/workflows/node-package.yml/badge.svg)](https://github.com/JeanExtreme002/FlightRadarAPI/actions)
-[![Pypi](https://img.shields.io/pypi/v/FlightRadarAPI?logo=pypi)](https://pypi.org/project/FlightRadarAPI/)
-[![License](https://img.shields.io/pypi/l/FlightRadarAPI)](https://github.com/JeanExtreme002/FlightRadarAPI)
-[![Python Version](https://img.shields.io/badge/python-3.7+-8A2BE2)](https://pypi.org/project/FlightRadarAPI/)
-[![Npm](https://img.shields.io/npm/v/flightradarapi?logo=npm&color=red)](https://www.npmjs.com/package/flightradarapi)
-[![Downloads](https://static.pepy.tech/personalized-badge/flightradarapi?period=total&units=international_system&left_color=grey&right_color=orange&left_text=downloads)](https://pypi.org/project/FlightRadarAPI/)
-[![Frequency](https://img.shields.io/pypi/dm/flightradarapi?style=flat&label=frequency)](https://pypi.org/project/FlightRadarAPI/)
-
-## Installing FlightRadarAPI:
-```
-$ npm install flightradarapi
+## Installation
+```bash
+npm install @ddima16/flightradarapi
 ```
 
-## Basic Usage:
+## 🛡️ Cloudflare Bypass
+FlightRadar24 uses Cloudflare protection. To bypass this, you **must** use a Cloudflare Worker as a proxy.
 
-Import the class `FlightRadar24API` and create an instance of it.
+### 1. Worker Script
+Deploy this script acting as a bridge:
 ```javascript
-const { FlightRadar24API, Countries } = require("flightradarapi");
-const frApi = new FlightRadar24API();
+export default {
+  async fetch(request) {
+    const url = new URL(request.url);
+    const targetUrl = url.searchParams.get("url");
+
+    if (!targetUrl) {
+      return new Response(JSON.stringify({ error: "Missing url parameter" }), { 
+        status: 400, 
+        headers: { "Content-Type": "application/json" } 
+      });
+    }
+
+    const acceptHeader = request.headers.get("Accept") || "*/*";
+
+    const headers = {
+      "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36",
+      "Accept": acceptHeader,
+      "X-Requested-With": "com.flightradar24.iphone"
+    };
+
+    try {
+      const response = await fetch(targetUrl, { headers });
+      
+      return new Response(response.body, {
+        status: response.status,
+        headers: {
+          "Content-Type": response.headers.get("Content-Type") || "application/json",
+          "Access-Control-Allow-Origin": "*"
+        }
+      });
+    } catch (e) {
+      return new Response(JSON.stringify({ error: e.message }), { 
+        status: 500,
+        headers: { "Content-Type": "application/json" }
+      });
+    }
+  }
+};
 ```
 
-**Getting flights list:**
+### 2. Initialization
 ```javascript
-let flights = await frApi.getFlights(...);  // Returns a list of Flight objects
+const { FlightRadar24API, Countries } = require("@ddima16/flightradarapi");
+
+// Initialize with your worker proxy URL
+const frApi = new FlightRadar24API("https://your-worker.workers.dev/?url=");
+
+// Or set the FR24_PROXY_URL environment variable and use:
+// const frApi = new FlightRadar24API();
 ```
 
-**Getting airports list (requires country selection):**
+## Quick Start Examples
+
+**Getting flights:**
 ```javascript
-// Get airports from specific countries
-let airports = await frApi.getAirports([Countries.BRAZIL, Countries.UNITED_STATES]);  // Returns a list of Airport objects
+let flights = await frApi.getFlights();
 ```
 
-**Getting airlines list:**
+**Getting airports by country:**
 ```javascript
-let airlines = await frApi.getAirlines();  // Returns detailed airline information with IATA/ICAO codes
+let airports = await frApi.getAirports([Countries.FRANCE, Countries.BRAZIL]);
 ```
 
-**Getting zones list:**
+**Getting airlines:**
 ```javascript
-let zones = await frApi.getZones();
+let airlines = await frApi.getAirlines();
 ```
 
-**Using Countries enum:**
-```javascript
-// Available countries in the Countries enum
-const { Countries } = require("flightradarapi");
+## Legal Disclaimer
+This SDK should only be used for your own educational purposes. For commercial use, please contact business@fr24.com. See [Flightradar24's terms and conditions](https://www.flightradar24.com/terms-and-conditions).
 
-// Examples of country codes:
-Countries.UNITED_STATES    // "united-states"
-Countries.BRAZIL           // "brazil" 
-Countries.GERMANY          // "germany"
-Countries.FRANCE           // "france"
-// ... and many more
-```
-
-## Documentation
-Explore the documentation of FlightRadarAPI package, for Python or NodeJS, through [this site](https://JeanExtreme002.github.io/FlightRadarAPI/).
+---
+*Maintained with ❤️ by [@ddima16](https://github.com/DimaD16)*

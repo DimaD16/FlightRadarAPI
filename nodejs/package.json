@@ -1,7 +1,7 @@
 {
-  "name": "flightradarapi",
-  "version": "1.4.0",
-  "description": "SDK for FlightRadar24",
+  "name": "@ddima16/flightradarapi",
+  "version": "1.4.3",
+  "description": "SDK for FlightRadar24 (Cloudflare Bypass Fork)",
   "main": "./FlightRadar24/index.js",
   "scripts": {
     "test": "mocha tests --timeout 10000",
@@ -9,28 +9,28 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/JeanExtreme002/FlightRadarAPI.git"
+    "url": "git+https://github.com/DimaD16/FlightRadarAPI.git"
   },
   "keywords": [
     "flightradar24",
     "api",
-    "radar", 
-    "aviation", 
-    "flights", 
+    "radar",
+    "aviation",
+    "flights",
     "airports",
     "airlines",
     "aircraft"
   ],
-  "author": "Jean Loui Bernard Silva de Jesus",
+  "author": "@ddima16",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/JeanExtreme002/FlightRadarAPI/issues"
+    "url": "https://github.com/DimaD16/FlightRadarAPI/issues"
   },
-  "homepage": "https://github.com/JeanExtreme002/FlightRadarAPI#readme",
+  "homepage": "https://github.com/DimaD16/FlightRadarAPI#readme",
   "dependencies": {
     "form-data": "^4.0.0",
     "jsdom": "^24.0.0",
-    "node-fetch": "^3.3.2"
+    "node-fetch": "^2.7.0"
   },
   "devDependencies": {
     "chai": "^4.3.10",

@@ -1,7 +1,15 @@
 const {CloudflareError} = require("./errors");
 
-const FormData = require("form-data");
-const fetch = (...args) => import("node-fetch").then(({default: fetch}) => fetch(...args));
+let fetch = globalThis.fetch;
+
+if (!fetch) {
+    try {
+        fetch = require("node-fetch");
+    }
+    catch (error) {
+        // Fallback if fetch is missing
+    }
+}
 
 
 /**
@@ -17,8 +25,10 @@ class APIRequest {
      * @param {object} [data]
      * @param {object} [cookies]
      * @param {object} [excludeStatusCodes=[]]
+     * @param {string} [proxyUrl]
      */
-    constructor(url, params = null, headers = null, data = null, cookies = null, excludeStatusCodes = []) {
+    constructor(url, params = null, headers = null, data = null, cookies = null, excludeStatusCodes = [], proxyUrl = null) {
+        this.proxyUrl = proxyUrl;
         this.requestParams = {
             "params": params,
             "headers": headers,
@@ -51,24 +61,19 @@ class APIRequest {
      *
      * @return {this}
      */
+    /**
+     * MODIFIED VERSION: This library has been patched to support Cloudflare bypass via Worker Proxy.
+     */
     async receive() {
-        const settings = {
-            method: this.requestMethod,
-            headers: this.requestParams["headers"],
-            cookies: this.requestParams["cookies"],
+        const proxyUrl = this.proxyUrl || process.env.FR24_PROXY_URL;
+        const targetUrl = proxyUrl ? proxyUrl + encodeURIComponent(this.url) : this.url;
+
+        // Pass the Accept header to the worker
+        const headers = {
+            "Accept": this.requestParams["headers"]?.["accept"] || "*/*",
         };
 
-        if (settings["method"] == "POST") {
-            const formData = new FormData();
-
-            Object.entries(this.requestParams["data"]).forEach(([key, value]) => {
-                formData.append(key, value);
-            });
-
-            settings["body"] = formData;
-        }
-
-        this.__response = await fetch(this.url, settings);
+        this.__response = await fetch(targetUrl, {method: "GET", headers});
 
         if (this.getStatusCode() == 520) {
             throw new CloudflareError(
@@ -108,21 +113,22 @@ class APIRequest {
             this.__content = await this.__response.text();
         }
         else {
-            this.__content = await this.__response.arrayBuffer();
+            // Conversion en Buffer pour la compatibilité avec la bibliothèque
+            const arrayBuffer = await this.__response.arrayBuffer();
+            this.__content = Buffer.from(arrayBuffer);
         }
         return this.__content;
     }
 
     /**
      * Return the received cookies from the request.
+     *
+     * @return {object}
      */
     getCookies() {
-        const rawCookies = this.__response.headers.raw()["set-cookie"];
+        // Le fetch natif n'a pas .raw(), on utilise getSetCookie()
+        const rawCookies = this.__response.headers.getSetCookie ? this.__response.headers.getSetCookie() : [];
         const cookies = {};
-
-        if (rawCookies == null) {
-            return {};
-        }
 
         rawCookies.forEach((string) => {
             const keyAndValue = string.split(";")[0].split("=");
@@ -134,6 +140,8 @@ class APIRequest {
 
     /**
      * Return the headers of the response.
+     *
+     * @return {object}
      */
     getHeaders() {
         const headersAsDict = {};
@@ -146,6 +154,8 @@ class APIRequest {
 
     /**
      * Return the received response object.
+     *
+     * @return {object}
      */
     getResponseObject() {
         return this.__response;
@@ -153,6 +163,8 @@ class APIRequest {
 
     /**
      * Return the status code of the response.
+     *
+     * @return {number}
      */
     getStatusCode() {
         return this.__response.status;

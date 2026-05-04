@@ -14,11 +14,24 @@ class Entity {
         this.__setPosition(latitude, longitude);
     }
 
+    /**
+     * Set the position of the entity.
+     *
+     * @param {number} latitude
+     * @param {number} longitude
+     */
     __setPosition(latitude, longitude) {
         this.latitude = latitude;
         this.longitude = longitude;
     }
 
+    /**
+     * Get information or return a default value if missing.
+     *
+     * @param {any} info
+     * @param {any} replaceBy
+     * @return {any}
+     */
     __getInfo(info, replaceBy = undefined) {
         replaceBy = replaceBy === undefined ? this.__defaultText : replaceBy;
         return (info || info === 0) && (info !== this.__defaultText) ? info : replaceBy;

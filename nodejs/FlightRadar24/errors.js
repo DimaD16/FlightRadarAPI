@@ -1,4 +1,10 @@
+/**
+ * Exception raised when an airport is not found.
+ */
 class AirportNotFoundError extends Error {
+    /**
+     * @param {string} message
+     */
     constructor(message) {
         super(message);
 
@@ -8,7 +14,14 @@ class AirportNotFoundError extends Error {
     }
 }
 
+/**
+ * Exception raised when Cloudflare blocks the request.
+ */
 class CloudflareError extends Error {
+    /**
+     * @param {string} message
+     * @param {object} response
+     */
     constructor(message, response) {
         super(message);
 
@@ -19,7 +32,13 @@ class CloudflareError extends Error {
     }
 }
 
+/**
+ * Exception raised when login fails.
+ */
 class LoginError extends Error {
+    /**
+     * @param {string} message
+     */
     constructor(message) {
         super(message);
 

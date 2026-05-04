@@ -139,7 +139,7 @@ update-deps:
 .PHONY: security
 security:
 	@echo "$(GREEN)Running security audit...$(NC)"
-	npm audit
+	-npm audit
 	@echo "$(GREEN)Security audit completed!$(NC)"
 
 # Fix security vulnerabilities

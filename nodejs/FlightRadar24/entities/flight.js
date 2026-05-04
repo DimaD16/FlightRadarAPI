@@ -27,7 +27,7 @@ class Flight extends Entity {
         this.originAirportIata = this.__getInfo(info[11]);
         this.destinationAirportIata = this.__getInfo(info[12]);
         this.number = this.__getInfo(info[13]);
-        this.airlineIata = this.__getInfo(info[13].slice(0, 2));
+        this.airlineIata = this.__getInfo(info[13] ? info[13].slice(0, 2) : undefined);
         this.onGround = this.__getInfo(info[14]);
         this.verticalSpeed =this.__getInfo(info[15]);
         this.callsign = this.__getInfo(info[16]);

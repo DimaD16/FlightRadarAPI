@@ -12,9 +12,9 @@ describe("Testing FlightRadarAPI version " + version, function() {
         it("Expected at least " + expected + " airlines.", async function() {
             const results = await frApi.getAirlines();
             expect(results.length).to.be.above(expected - 1);
-            
+
             const found = [];
-            
+
             for (const airline of results) {
                 if (airlines.includes(airline.ICAO) && !found.includes(airline)) {
                     found.push(airline);
@@ -138,11 +138,11 @@ describe("Testing FlightRadarAPI version " + version, function() {
                 const flights = await frApi.getFlights(null, bounds);
 
                 for (const flight of flights) {
-                    expect(flight.latitude).to.be.below(zone["tl_y"]);
-                    expect(flight.latitude).to.be.above(zone["br_y"]);
+                    expect(flight.latitude).to.be.at.most(zone["tl_y"]);
+                    expect(flight.latitude).to.be.at.least(zone["br_y"]);
 
-                    expect(flight.longitude).to.be.below(zone["br_x"]);
-                    expect(flight.latitude).to.be.above(zone["tl_x"]);
+                    expect(flight.longitude).to.be.at.most(zone["br_x"]);
+                    expect(flight.longitude).to.be.at.least(zone["tl_x"]);
                 }
                 expect(flights.length).to.be.above(expected - 1);
             }

@@ -136,7 +136,7 @@ class Airport extends Entity {
             this.timezoneOffsetHours = this.timezoneOffsetHours + ":00";
         }
         else {
-            this.timezoneOffsetHours = this.__getInfo(None);
+            this.timezoneOffsetHours = this.__getInfo(undefined);
         }
 
         // Airport reviews.

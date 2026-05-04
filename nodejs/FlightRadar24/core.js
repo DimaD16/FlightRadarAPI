@@ -1,11 +1,11 @@
 const {staticZones} = require("./zones");
 
-String.prototype.format = function() {
-    const args = arguments;
+/* eslint-disable no-extend-native */
+String.prototype.format = function(...args) {
     let index = 0;
 
-    return this.replace(/{}/g, function(match, position) {
-        return (typeof args[index] == "undefined") ? match : args[index++];
+    return this.replace(/{}/g, (match) => {
+        return (typeof args[index] === "undefined") ? match : args[index++];
     });
 };
 
@@ -29,14 +29,14 @@ class Core {
         this.userLogoutUrl = this.flightRadarBaseUrl + "/user/logout";
 
         // Search data URL
-        this.searchDataUrl = this.flightRadarBaseUrl + "/v1/search/web/find?query={}&limit={}";
+        this.searchDataUrl = "https://www.flightradar24.com/v1/search/web/find?query={}&limit={}";
 
         // Flights data URLs.
         this.realTimeFlightTrackerDataUrl = this.dataCloudBaseUrl + "/zones/fcgi/feed.js";
         this.flightDataUrl = this.dataLiveBaseUrl + "/clickhandler/?flight={}";
 
         // Historical data URL.
-        this.historicalDataUrl = this.flightradarBaseUrl + "/download/?flight={}&file={}&trailLimit=0&history={}";
+        this.historicalDataUrl = this.flightRadarBaseUrl + "/download/?flight={}&file={}&trailLimit=0&history={}";
 
         // Airports data URLs.
         this.apiAirportDataUrl = this.apiFlightradarBaseUrl + "/airport.json";
@@ -73,15 +73,19 @@ class Core {
         this.headers = {
             "accept-encoding": "gzip, br",
             "accept-language": "en-US,en;q=0.9",
-            "cache-control": "max-age=0",
             "user-agent": "Flightradar24/10.0.0 (com.flightradar24.iphone; build:10.0.0.1; iOS 17.4.1) Alamofire/5.9.1",
+            "x-requested-with": "com.flightradar24.iphone",
         };
 
         this.jsonHeaders = {accept: "application/json", ...this.headers};
 
         this.imageHeaders = {accept: "image/gif, image/jpg, image/jpeg, image/png", ...this.headers};
-        
-        this.htmlHeaders = {accept: "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7", ...this.headers};
+
+        this.htmlHeaders = {
+            accept: "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif," +
+                "image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7",
+            ...this.headers,
+        };
     }
 }
 
@@ -316,7 +320,7 @@ const Countries = {
     WALLIS_AND_FUTUNA: "wallis-and-futuna",
     YEMEN: "yemen",
     ZAMBIA: "zambia",
-    ZIMBABWE: "zimbabwe"
+    ZIMBABWE: "zimbabwe",
 };
 
 module.exports = new Core();
